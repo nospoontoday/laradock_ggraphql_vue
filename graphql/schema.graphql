@@ -19,6 +19,7 @@ type Query {
     ): [User!]! @paginate(defaultCount: 10)
 
     books: [Book] @all
+    book(id: ID @eq): Book @find
 }
 
 "Account of a person who utilizes this application."
@@ -42,6 +43,12 @@ type User {
     updated_at: DateTime!
 }
 
+type Category {
+    id: ID!
+    name: String!
+    books: [Book] @hasMany
+}
+
 type Book {
     id: ID!
     title: String!
@@ -51,10 +58,4 @@ type Book {
     description: String
     featured: Boolean
     category: Category! @belongsTo
-}
-
-type Category {
-    id: ID!
-    name: String!
-    books: [Book] @hasMany
 }
