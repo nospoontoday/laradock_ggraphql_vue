@@ -27,6 +27,38 @@ type Query {
     category(id: ID @eq): Category @find
 }
 
+type Mutation {
+    createCategory(
+        input: CreateCategoryInput! @spread
+    ): Category @create
+
+    updateCategory(
+        id: ID @rules(apply: ["required"])
+        name: String @rules(apply: ["required", "unique:categories,name"])
+    ): Category @update
+
+    deleteCategory(
+        id: ID! @rules(apply: ["required"])
+    ): Category @delete
+
+    createBook(input: CreateBookInput! @spread): Book @create
+}
+
+input CreateBookInput {
+    title: String!
+    author: String!
+    category: CreateCategoryBelongsTo
+}
+
+input CreateCategoryBelongsTo {
+    connect: ID
+    create: CreateCategoryInput
+}
+
+input CreateCategoryInput {
+    name: String @rules(apply: ["required", "unique:categories,name"])
+}
+
 "Account of a person who utilizes this application."
 type User {
     "Unique primary key."
