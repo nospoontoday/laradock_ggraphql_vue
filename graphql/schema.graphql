@@ -33,12 +33,11 @@ type Mutation {
     ): Category @create
 
     updateCategory(
-        id: ID @rules(apply: ["required"])
-        name: String @rules(apply: ["required", "unique:categories,name"])
+        input: UpdateCategoryInput! @spread
     ): Category @update
 
     deleteCategory(
-        id: ID! @rules(apply: ["required"])
+        input: DeleteCategoryInput! @spread
     ): Category @delete
 
     createBook(input: CreateBookInput! @spread): Book @create
@@ -53,10 +52,21 @@ input CreateBookInput {
 input CreateCategoryBelongsTo {
     connect: ID
     create: CreateCategoryInput
+    update: UpdateCategoryInput
+    delete: DeleteCategoryInput
 }
 
 input CreateCategoryInput {
     name: String @rules(apply: ["required", "unique:categories,name"])
+}
+
+input UpdateCategoryInput {
+    id: ID @rules(apply: ["required"])
+    name: String @rules(apply: ["required", "unique:categories,name"])
+}
+
+input DeleteCategoryInput {
+    id: ID! @rules(apply: ["required"])
 }
 
 "Account of a person who utilizes this application."
