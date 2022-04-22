@@ -28,25 +28,38 @@ type Query {
 }
 
 type Mutation {
-    createCategory(
-        input: CreateCategoryInput! @spread
-    ): Category @create
+    createCategory(input: CreateCategoryInput! @spread): Category @create
 
-    updateCategory(
-        input: UpdateCategoryInput! @spread
-    ): Category @update
+    updateCategory(input: UpdateCategoryInput! @spread): Category @update
 
-    deleteCategory(
-        input: DeleteCategoryInput! @spread
-    ): Category @delete
+    deleteCategory(input: DeleteCategoryInput! @spread): Category @delete
 
     createBook(input: CreateBookInput! @spread): Book @create
+
+    updateBook(input: UpdateBookInput! @spread): Book @update
+
+    deleteBook(input: DeleteBookInput! @spread): Book @delete
 }
 
 input CreateBookInput {
     title: String!
     author: String!
     category: CreateCategoryBelongsTo
+}
+
+input UpdateBookInput {
+    id: ID!
+    title: String! @rules(apply: ["required"])
+    author: String! @rules(apply: ["required"])
+    image: String
+    link: String
+    description: String
+    featured: Boolean
+    category: CreateCategoryBelongsTo
+}
+
+input DeleteBookInput {
+    id: ID! @rules(apply: ["required"])
 }
 
 input CreateCategoryBelongsTo {
